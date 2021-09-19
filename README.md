@@ -341,4 +341,4 @@ Non-authoritative answer:
 
 Je ping 8.8.8.8 pour voir les trames sur WireShark pour tester un ping entre moi et ma passerelle.
 
-![Screenshot](/Users/yanissloisel/Desktop/ReseauB2/TP1_GitHub/Image1.png)
+![Screenshot](Image1.png)
