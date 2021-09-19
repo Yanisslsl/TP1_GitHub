@@ -49,7 +49,7 @@ Adresse de la gateway = 10.33.3.253
 ### Questions ?
 ####  à quoi sert la gateway dans le réseau d'YNOV ?
 
-La gateway permet de relier deux réseaux informatiques. Ici chez Ynov la gateway permet de faire communiquer le réseau de d'Ynov avec Internet
+La gateway permet de relier deux réseaux informatiques. Ici chez Ynov la gateway permet de faire communiquer le réseau  d'Ynov avec Internet
 
 ## 2. Modifications des informations
 
@@ -194,6 +194,8 @@ ping 8.8.8.8
 PING 8.8.8.8 (8.8.8.8): 56 data bytes
 64 bytes from 8.8.8.8: icmp_seq=0 ttl=115 time=18.848 ms
 64 bytes from 8.8.8.8: icmp_seq=1 ttl=115 time=19.186 ms
+
+# I. Exploration locale en solo
 
 ## 3. Modification d'adresse IP
 
