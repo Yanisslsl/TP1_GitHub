@@ -339,6 +339,27 @@ Non-authoritative answer:
 
 # 6. WireShark
 
-Je ping 8.8.8.8 pour voir les trames sur WireShark pour tester un ping entre moi et ma passerelle.
+Je ping 8.8.8.8 pour voir les trames sur WireShark pour tester un ping entre moi et ma passerelle(qui a pour IP 192.168.1.1)
 
 ![Screenshot](Image1.png)
+
+Je peux aussi directement ping ma passerelle 192.168.1.1.
+![Screenshot](Image2.png)
+
+Ne possednant pas de cable Ethernet. Je ping mon l'IP de mon interface loopback.
+
+![Screenshot](Image3.png)
+
+Avec la commande je trouve, l'ip de mon serveur DNS qui correspond a celle de mon routeur.
+```
+
+$scutil --dns
+
+nameserver[2] : 192.168.1.1
+```
+
+![Screenshot](Image4.png)
+
+
+
+
