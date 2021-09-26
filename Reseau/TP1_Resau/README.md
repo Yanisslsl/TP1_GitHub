@@ -1,4 +1,4 @@
-# TP1_GitHub
+# TP1_RESEAU
 
 # TP1 - Mise en jambes
 ## I. Exploration locale en solo
@@ -199,7 +199,7 @@ PING 8.8.8.8 (8.8.8.8): 56 data bytes
 
 ## 3. Modification d'adresse IP
 
-Ne possédant pas de ports Ehternet j'ai créer un hotspot (Wifi) avec mon iPhone afin que l'on puisse en se connectant dessus etre dans le meme réseau.
+Ne possédant pas de ports Ehternet j'ai créer un hotspot (Wifi) avec mon iPhone afin que l'on puisse en se connectant dessus  être dans le meme réseau.
 
 L'adresse de la gateway est 172.20.10.1 obtenu avec la commande route get default | grep gateway
 Mon IP est 172.20.10.3 et l'IP de Aranud est 172.20.10.7. On peut vérifier si l'on peut communiquer entre nous avec la commande ping.
