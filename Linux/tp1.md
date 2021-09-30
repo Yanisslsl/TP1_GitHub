@@ -313,5 +313,24 @@ Avec un simple curl je verifie que le serveur Web est bien accessible sur le por
 </body>
 </html>
 ‘‘‘
+    
+ J'ajoute un utilisateur web avec la commande useradd web.
+ Ensuite je créé un fichier dans /srv et je teste si jeux peux y accéder une fois le service actif.
+‘‘‘
+ [superme@node1 ~]$ touch /srv/test
+    
+‘‘‘
+Puis je verifie avec curl
+
+ ✘ yanissloisel@mbp-de-yaniss  ~ curl localhost:8888
+ <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+
+‘‘‘
+    
+    
+    
+    
+$cat 
 
 
