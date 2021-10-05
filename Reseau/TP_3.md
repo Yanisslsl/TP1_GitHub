@@ -159,3 +159,62 @@ traceroute to ynov.com (92.243.16.143), 30 hops max, 60 byte packets
  1  _gateway (10.3.0.190)  1.152 ms  1.148 ms  1.028 ms
  2  10.0.2.2 (10.0.2.2)  1.001 ms  0.974 ms  0.854 ms
 ```
+
+## 2.Serveur
+
+### B.Setup Copain
+
+#### 🌞 Mettre en place une machine qui fera office de serveur DNS
+
+sudo cat /etc/named.conf
+
+options {
+        listen-on port 53 { 127.0.0.1;any; };
+        listen-on-v6 port 53 { ::1; };
+        directory       "/var/named";
+        dump-file       "/var/named/data/cache_dump.db";
+        statistics-file "/var/named/data/named_stats.txt";
+        memstatistics-file "/var/named/data/named_mem_stats.txt";
+        secroots-file   "/var/named/data/named.secroots";
+        recursing-file  "/var/named/data/named.recursing";
+        allow-query     { localhost;any; };
+	[..]
+	
+	zone "server1.tp3" IN {
+        type master;
+        file "server1.tp3.forward";
+        allow-update {10.3.0.130;};
+};
+
+sudo cat /var/etc/server1.tp3.forward
+$TTL 86400
+@   IN  SOA dns.server1.tp3. admin.server1.tp3. (
+        2021062301   ; serial
+        3600         ; refresh
+        1800         ; retry
+        604800       ; expire
+        86400 )      ; minimum TTL
+;
+; define nameservers
+    IN  NS  dns.server1.tp3.
+;
+; DNS Server IP addresses and hostnames
+dns IN  A   10.3.0.100
+;
+;client records
+router IN  A   10.3.0.190
+
+### 🌞 Tester le DNS depuis marcel.client1.tp3
+#### définissez manuellement l'utilisation de votre serveur DNS
+
+cat /etc/resol.conf
+nameserver 10.3.1.2
+
+
+#### essayez une résolution de nom avec dig
+[yaniss@marcel ~]$ dig ynov.com
+
+;; Query time: 3 msec
+;; SERVER: 10.3.0.100#53(10.3.0.100)
+
+
