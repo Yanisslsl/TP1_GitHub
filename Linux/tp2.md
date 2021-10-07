@@ -151,6 +151,32 @@ LISTEN    0         128                      *:8888                    *:*      
 
 De nouveau, pour tester rapidement que mon mon serveur tourne, avec la commande curl localhost:8080 j'obtiens bien le contenu de ma page html. Depuis ma propre machine je rentre l'ip de ma machine suivi du port 8080 et j'obtiens aussi le contenu de ma page html.
 
+### 🌞 Install du serveur Web et de NextCloud sur web.tp2.linux
 
+Voici grace a mon history des commandes les étapes nécessaires a l'installation de NextCloud
+‘‘‘
 
+84  sudo dnf install epel-release -y
+85  sudo dnf update -y
+89  sudo dnf update -y
+90  sudo dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
+91  sudo dnf module enable php:remi-7.4 -y
+92  sudo dnf install httpd mariadb-server vim wget zip unzip libxml2 openssl php74-php php74-php-ctype php74-php-curl php74-php-gd php74-php-iconv php74-php-json php74-php-libxml php74-php-mbstring php74-php-openssl php74-php-posix php74-php-session php74-php-xml php74-php-zip php74-php-zlib php74-php-pdo php74-php-mysqlnd php74-php-intl php74-php-bcmath php74-php-gmp -y
+93  sudo mkdir /etc/httpd/sites-available
+94  sudo nano /etc/httpd/sites-available/linux.web
+95  sudo mkdir /etc/httpd/sites-enabled
+96  sudo ln -s /etc/httpd/sites-available/linux.web
+97  sudo nano /etc/opt/remi/php74/php.ini
+98  cd /usr/share/zoneinfo
+99  ls
+100  cd ..
+103  sudo nano /etc/opt/remi/php74/php.ini
+104  sudo wget https://download.nextcloud.com/server/releases/nextcloud-21.0.1.zip
+105  sudo unzip nextcloud-21.0.1.zip
+111  cd nextcloud/
+113  sudo cp -Rf * /var/www/sub-domains/linux.web/html/
+134  sudo chown -Rf apache.apache /var/www/sub-domains/linux.web/html/
+191  sudo ln -s /etc/httpd/sites-available/linux.web /etc/httpd/sites-enabled
+
+‘‘‘
 
