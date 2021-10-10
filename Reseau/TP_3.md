@@ -8,7 +8,7 @@
 |---------------|-------------------|---------------|-----------------------------|--------------------|----------------------------------------------------------------------------------------------|
 | `server1`     | `10.3.0.0`        | `255.255.255.128` | 126                          | `10.3.0.126`         | `10.3.0.127`                                                                                   |
 | `client1`     | `10.3.0.128`        | `255.255.255.192` | 62                         | `10.3.0.190`         | `10.3.0.191`                                                                                   |
-| `server2`     | `10.3.0.192`        | `255.255.255.240` | 14                           | `10.3.0.207`         | `10.3.0.208`                                                                                   |
+| `server2`     | `10.3.0.192`        | `255.255.255.240` | 14                           | `10.3.0.206`         | `10.3.0.207`                                                                                   |
 
 🌞 **Vous remplirez aussi** au fur et à mesure que vous avancez dans le TP, au fur et à mesure que vous créez des machines, **le 🗃️ tableau d'adressage 🗃️ suivant :**
 
@@ -216,5 +216,72 @@ nameserver 10.3.1.2
 
 ;; Query time: 3 msec
 ;; SERVER: 10.3.0.100#53(10.3.0.100)
+
+
+### 1. Serveur Web
+
+[yaniss@web1 ~]$ sudo dnf install nginx
+
+[yaniss@web1 ~]$ sudo systemctl enable nginx
+
+[yaniss@web1 ~]$ sudo systemctl start nginx
+
+[yaniss@web1 ~]$ sudo firewall-cmd --zone=public --add-service=http --permanent
+
+
+Je teste depuis marcel.client
+
+[yaniss@marcel ~]$ curl web1
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+	  
+# 2. Partage de fichiers
+	  
+## B. Le setup wola
+	  
+### 🌞 Setup d'une nouvelle machine, qui sera un serveur NFS
+	  
+[yaniss@nfs1 nfs_share]$ sudo dnf install nfs-utils -y
+
+[yaniss@nfs1 nfs_share]$ sudo cat  /etc/idmapd.conf
+[General]
+#Verbosity = 0
+# The following should be set to the local NFSv4 domain name
+# The default is the host's DNS domain name.
+Domain = srv.world
+
+	  
+[yaniss@nfs1 nfs_share]$ sudo cat /etc/exports
+/srv/nfs_share  10.3.0.199(rw,no_root_squash)
+
+[yaniss@nfs1 nfs_share]$ sudo mkdir /srv/nfs_share
+	  
+[yaniss@nfs1 nfs_share]$ sudo exportfs -r
+
+[yaniss@nfs1 nfs_share]$ sudo touch toto
+	
+	  
+### 🌞 Configuration du client NFS
+	  
+	  
+[yaniss@web1 ]$ sudo cat  /etc/idmapd.conf
+[General]
+#Verbosity = 0
+# The following should be set to the local NFSv4 domain name
+# The default is the host's DNS domain name.
+Domain = srv.world
+
+[yaniss@web1 nfs]$ sudo mkdir /srv/nfs
+	  
+[yaniss@web1 nfs]$ sudo  mount -t nfs -vvvv 10.3.0.200:/srv/nfs_share/ /srv/nfs/
+	  
+[yaniss@web1 nfs]$ pwd
+/srv/nfs
+
+[yaniss@web1 nfs]$ ls
+toto
+	  
 
 
