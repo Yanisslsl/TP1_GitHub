@@ -8,7 +8,6 @@
 ‘‘‘
 [yaniss@web ~]$ sudo dnf install -y httpd
 
-...
 ‘‘‘
 
 #### 🌞 Démarrer le service Apache
