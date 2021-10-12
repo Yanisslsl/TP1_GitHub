@@ -157,28 +157,136 @@ Voici grace a mon history des commandes les étapes nécessaires a l'installatio
 ‘‘‘
 
 sudo dnf install epel-release -y
+‘‘‘
+‘‘‘
+
 sudo dnf update -y
+‘‘‘
+‘‘‘
+
 sudo dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
+‘‘‘
+‘‘‘
+
 sudo dnf module enable php:remi-7.4 -y
+‘‘‘
+‘‘‘
+
 sudo dnf install httpd mariadb-server vim wget zip unzip libxml2 openssl php74-php php74-php-ctype       php74-php-curl php74-php-gd php74-php-iconv php74-php-json php74-php-libxml php74-php-mbstring php74-   php-openssl php74-php-posix php74-php-session php74-php-xml php74-php-zip php74-php-zlib php74-php-     pdo php74-php-mysqlnd php74-php-intl php74-php-bcmath php74-php-gmp -y
+‘‘‘
+‘‘‘
+
 sudo mkdir /etc/httpd/sites-available
+‘‘‘
+‘‘‘
+
 sudo ln -s /etc/httpd/sites-available/linux.web /etc/httpd/sites-enabled
+‘‘‘
+‘‘‘
+
 sudo nano /etc/httpd/sites-available/linux.web
+‘‘‘
+‘‘‘
+
 sudo mkdir /etc/httpd/sites-enabled
+‘‘‘
+‘‘‘
+
 sudo ln -s /etc/httpd/sites-available/linux.web
+‘‘‘
+‘‘‘
+
 sudo nano /etc/opt/remi/php74/php.ini
+‘‘‘
+‘‘‘
+
 sudo nano /etc/opt/remi/php74/php.ini
+‘‘‘
+‘‘‘
+
 sudo wget https://download.nextcloud.com/server/releases/nextcloud-21.0.1.zip
+‘‘‘
+‘‘‘
+
 sudo unzip nextcloud-21.0.1.zip
+‘‘‘
+‘‘‘
+
 cd nextcloud/
+‘‘‘
+‘‘‘
+
 sudo cp -Rf * /var/www/sub-domains/linux.web/html/
+‘‘‘
+‘‘‘
+
 sudo chown -Rf apache.apache /var/www/sub-domains/linux.web/html/
 
 
 ‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ sudo dnf install epel-release -y
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ sudo dnf update -y
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ sudo dnf install https://rpms.remirepo.net/enterprise/remi-release-8.rpm -y
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ sudo dnf module enable php:remi-7.4 -y
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ sudo dnf install httpd mariadb-server vim wget zip unzip libxml2 openssl php74-php php74-php-ctype php74-php-curl php74-php-gd php74-php-iconv php74-php-json php74-php-libxml php74-php-mbstring php74-php-openssl php74-php-posix php74-php-session php74-php-xml php74-php-zip php74-php-zlib php74-php-pdo php74-php-mysqlnd php74-php-intl php74-php-bcmath php74-php-gmp -y
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ sudo dnf install -y mariadb-server
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ mysql_secure_installation
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ sudo systemctl enable mariadb
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ sudo systemctl restart mariadb
+‘‘‘
+‘‘‘
+
+[yaniss@db ~]$ ss -alnpt
+‘‘‘
+### 🌞 Préparation de la base pour NextCloud
+
+
+#### trouver une commande qui permet de lister tous les utilisateurs de la base de données
+
+Avec la comamande SELECT User FROM mysql.user;  
+
+### C. Finaliser l'installation de NextCloud
 
 
 ### 🌞 Exploration de la base de données
+
+Avec la commande suivante je verifie le nombre de lignes crées.
+‘‘‘
+
+USE nextcloud SELECT FOUND_ROWS();
+‘‘‘
+
+| Machine           | IP            | Masque            | Service                 | Port ouvert       | IP autorisées|
+|-------------------|---------------|-------------------|-------------------------|-------------------|--------------|
+| web.tp2.linux     | `10.3.0.126` | `255.255.255.0`   | Machine Web             | 80/tcp - 22/tcp   |toutes les ip |
+| db.tp2.linux      | `10.3.0.122` | `255.255.255.0`   | Machine hostant la Base de Données | 3306/tcp - 22/tcp |`10.3.0.126` |
+
 
 
 
