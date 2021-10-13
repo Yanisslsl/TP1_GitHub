@@ -283,5 +283,9 @@ Domain = srv.world
 [yaniss@web1 nfs]$ ls
 toto
 	  
+	  
+	  
+	  rsync --remove-source files
+	  
 
 
