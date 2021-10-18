@@ -83,7 +83,7 @@ Je vérifie le nom de la VM
 ```
 
 [yaniss@dhcp ~]$ hostname
-dhcp.client1.tp3
+dhcp.server2.tp3
 ```
 Je modifie le fichier de conf du dhcp et modifiant les fiels nécessaires.
 ```
@@ -127,7 +127,6 @@ L'IP de la VM est bien donnée dynamiquement par le serveur DHCP
     inet6 fe80::25ee:59cf:8284:5f66/64 scope link noprefixroute
        valid_lft forever preferred_lft forever
 ```
- Le seveur DNS est bien celui spécifié par le serveur DHCP.
 ```
  
  [yaniss@marcel ~]$ dig
@@ -295,19 +294,14 @@ toto
 Les échanges NFS, SSH et et HTTP sont encapsulés dans des trames TCP tandis que les échanges DNS sont encapsulés dans des trames UDP.
 	  
 ### V. El final
-	  
-| Nom machine  | Adresse IP `client1` | Adresse IP `server1` | Adresse IP `server2` | Adresse de passerelle |
-|--------------|----------------------|----------------------|----------------------|-----------------------|
-| `router.tp3` | `10.3.0.126/25`         | `10.3.0.190/26`         | `10.3.0.207/28`         | Carte NAT             |
-|          | ...                  | ...                  | ...                  | `10.0.2.15/24`          |
+
 	  
 | Nom machine        | Adresse IP `client1` | Adresse IP `server1` | Adresse IP `server2` | Adresse de passerelle  |
 |--------------------|----------------------|----------------------|----------------------|------------------------|
 | `router.tp3`       | `10.3.0.190/26`      | `10.3.0.126/25`      | `10.3.0.206/28`      | Carte NAT              |
 | `dhcp.client1.tp3` | `10.3.0.189/26`      |                      |                      |                        |
 |`marcel.client.tp3`| `10.3.0.130/26`      |                      |                      | `router``10.3.0.190/26`|
-|`dns1.server1.tp3`  |                      | `10.3.0.2/25`        |                      | `router``10.3.0.126/25`|
-|`johnny.server1.tp3`| `10.3.0.133/25`      |                      |                      | `router``10.3.0.126/25`|
+|`dns1.server1.tp3`  |                      | `10.3.0.100/25`        |                      | `router``10.3.0.126/25`|
 |`web1.server2.tp3`  |                      |                      | `10.3.0.194/28`      | `router``10.3.0.206/28`|
 |`nfs1.server2.tp3`  |                      |                      | `10.3.0.195/28`      | `router``10.3.0.206/28`|
 
