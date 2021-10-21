@@ -164,6 +164,7 @@ traceroute to ynov.com (92.243.16.143), 30 hops max, 60 byte packets
 ### B.Setup Copain
 
 #### 🌞 Mettre en place une machine qui fera office de serveur DNS
+```
 
 sudo cat /etc/named.conf
 
@@ -184,6 +185,9 @@ options {
         file "server1.tp3.forward";
         allow-update {10.3.0.130;};
 };
+```
+```
+
 
 sudo cat /var/etc/server1.tp3.forward
 $TTL 86400
@@ -203,21 +207,32 @@ dns IN  A   10.3.0.100
 ;client records
 router IN  A   10.3.0.190
 
+```
+
+
 ### 🌞 Tester le DNS depuis marcel.client1.tp3
 #### définissez manuellement l'utilisation de votre serveur DNS
+```
 
 cat /etc/resol.conf
 nameserver 10.3.1.2
+```
 
 
 #### essayez une résolution de nom avec dig
+```
+
 [yaniss@marcel ~]$ dig ynov.com
 
 ;; Query time: 3 msec
 ;; SERVER: 10.3.0.100#53(10.3.0.100)
+```
+
 
 
 ### 1. Serveur Web
+```
+
 
 [yaniss@web1 ~]$ sudo dnf install nginx
 
@@ -227,22 +242,29 @@ nameserver 10.3.1.2
 
 [yaniss@web1 ~]$ sudo firewall-cmd --zone=public --add-service=http --permanent
 
+```
 
 Je teste depuis marcel.client
+```
 
 [yaniss@marcel ~]$ curl web1
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
-	  
+	
+```
+
 # 2. Partage de fichiers
 	  
 ## B. Le setup wola
 	  
 ### 🌞 Setup d'une nouvelle machine, qui sera un serveur NFS
+```
 	  
 [yaniss@nfs1 nfs_share]$ sudo dnf install nfs-utils -y
+```
+```
 
 [yaniss@nfs1 nfs_share]$ sudo cat  /etc/idmapd.conf
 [General]
@@ -250,7 +272,9 @@ Je teste depuis marcel.client
 # The following should be set to the local NFSv4 domain name
 # The default is the host's DNS domain name.
 Domain = srv.world
+```
 
+```
 	  
 [yaniss@nfs1 nfs_share]$ sudo cat /etc/exports
 /srv/nfs_share  10.3.0.199(rw,no_root_squash)
@@ -260,10 +284,12 @@ Domain = srv.world
 [yaniss@nfs1 nfs_share]$ sudo exportfs -r
 
 [yaniss@nfs1 nfs_share]$ sudo touch toto
+```
 	
 	  
 ### 🌞 Configuration du client NFS
 	  
+```
 	  
 [yaniss@web1 ]$ sudo cat  /etc/idmapd.conf
 [General]
@@ -281,10 +307,11 @@ Domain = srv.world
 
 [yaniss@web1 nfs]$ ls
 toto
+```
 	  
 	  
 	  
-	  rsync --remove-source files
+	 
 	  
 
 #### IV. Un peu de théorie : TCP et UDP
