@@ -81,7 +81,7 @@ Je teste en créant un fichier
 [yaniss@web web.tp2.linux]$ sudo touch toto
   ```
  
-Le dossier est bein présent.
+Le dossier est bien présent.
   ```
 
 [yaniss@web backup]$ ls
@@ -90,4 +90,50 @@ toto
  
 # 3. Backup de fichiers
 
+J'execute le script sur la vm web.
+  ```
+
+[yaniss@web srv]$ sudo ./tp2_backup.sh /srv/backup ~/lolo
+[OK] Archive /srv/hello_211025_100236.tar.gz created.
+[OK] Archive /srv/hello_211025_100236.tar.gz synchronized to /srv/backup.
+[OK] Directory /srv/backup cleaned to keep only the 5 most recent backups.
+  
  
+  ```
+  Le dossier est tar est bien present dans le dossier /srv/backups, on verifie sur la vm de backup si le fichier est bien present dans /srv/backups/web.tp2.linux.
+  ```
+  
+ [yaniss@web backup]$ ls
+hello_211025_100236.tar.gz  tata  toto
+  ```
+  On remarque que le fichier est bien present dans /srv/backups/web.tp2.linux.
+  ```
+ 
+ [yaniss@web web.tp2.linux]$ ls
+hello_211025_100236.tar.gz  tata  toto
+  ```
+  
+  On peut ensuite avoir acces au fichier en le decompressant.
+  
+  ```
+  
+  [yaniss@web ~]$ sudo tar -xvf /srv/backups/web.tp2.linux/hello_211025_100236.tar.gz
+home/yaniss/lolo
+  ```
+### 4. Unité de service.
+
+Dans le dossier /etc/systemd/system/ je creer mon fichier de configuration du service. Une fois cela fait je le démarre. Et je verifie que le fichier tar est present dans mon autre VM.
+  ```
+
+[yaniss@web web.tp2.linux]$ ls -al
+total 20
+drwxr-xr-x. 3 root root 188 25 oct.  10:46 .
+drwxr-xr-x. 3 root root  27 24 oct.  15:31 ..
+-rw-r--r--. 1 root root 124 25 oct.  10:31 hello_211025_103148.tar.gz
+-rw-r--r--. 1 root root 124 25 oct.  10:34 hello_211025_103415.tar.gz
+-rw-r--r--. 1 root root 123 25 oct.  10:35 hello_211025_103527.tar.gz
+-rw-r--r--. 1 root root 123 25 oct.  10:40 hello_211025_104031.tar.gz
+-rw-r--r--. 1 root root 123 25 oct.  10:40 hello_211025_104035.tar.gz
+  ```
+
+Jai redemarré plusieurs fois le service d'ou la presence de plusiseurs fichiers tar.
