@@ -94,8 +94,8 @@ J'execute le script sur la vm web.
   ```
 
 [yaniss@web srv]$ sudo ./tp2_backup.sh /srv/backup ~/lolo
-[OK] Archive /srv/hello_211025_100236.tar.gz created.
-[OK] Archive /srv/hello_211025_100236.tar.gz synchronized to /srv/backup.
+[OK] Archive /srv/tp2_backup_211025_100236.tar.gz created.
+[OK] Archive /srv/tp2_backup_211025_100236.tar.gz synchronized to /srv/backup.
 [OK] Directory /srv/backup cleaned to keep only the 5 most recent backups.
   
  
@@ -129,11 +129,102 @@ Dans le dossier /etc/systemd/system/ je creer mon fichier de configuration du se
 total 20
 drwxr-xr-x. 3 root root 188 25 oct.  10:46 .
 drwxr-xr-x. 3 root root  27 24 oct.  15:31 ..
--rw-r--r--. 1 root root 124 25 oct.  10:31 hello_211025_103148.tar.gz
--rw-r--r--. 1 root root 124 25 oct.  10:34 hello_211025_103415.tar.gz
--rw-r--r--. 1 root root 123 25 oct.  10:35 hello_211025_103527.tar.gz
--rw-r--r--. 1 root root 123 25 oct.  10:40 hello_211025_104031.tar.gz
--rw-r--r--. 1 root root 123 25 oct.  10:40 hello_211025_104035.tar.gz
+-rw-r--r--. 1 root root 124 25 oct.  10:31 tp2_backup_211025_103148.tar.gz
+
+
   ```
 
 Jai redemarré plusieurs fois le service d'ou la presence de plusiseurs fichiers tar.
+
+## B.Timer
+
+Pareil que pour la partie A je creer le service dans le dossier  /etc/systemd/system/.
+Puis j'enable le service et je verifie qu'il le soit.
+
+  ```
+
+[yaniss@web system]$ systemctl is-enabled tp2_backup.timer
+enabled
+  ```
+Je verifie que le service soit actif.
+  ```
+
+[yaniss@web ~]$ sudo systemctl status tp2_backup.timer
+[sudo] Mot de passe de yaniss :
+● tp2_backup.timer - Periodically run our TP2 backup script
+   Loaded: loaded (/etc/systemd/system/tp2_backup.timer; enabled; vendor preset: disabled)
+   Active: active (waiting) since Mon 2021-10-25 11:05:33 CEST; 22s ago
+  Trigger: Mon 2021-10-25 11:06:00 CEST; 3s left
+
+oct. 25 11:05:33 web.tp2.linux systemd[1]: Started Periodically run our TP2 backup script.
+  ```
+On remarque donc la creation d'un nouveau fichier tar dans dans la VM.
+
+
+## C.Contexte
+
+On remarque bien que le service s'executera a 3:15.
+  ```
+
+[yaniss@web system]$ sudo systemctl list-timers
+NEXT                          LEFT       LAST                          PASSED      UNIT                         ACTIVATES
+Mon 2021-10-25 11:20:26 CEST  6min left  n/a                           n/a         systemd-tmpfiles-clean.timer systemd-tmpfile>
+Mon 2021-10-25 12:03:13 CEST  49min left n/a                           n/a         dnf-makecache.timer          dnf-makecache.s>
+Tue 2021-10-26 03:15:00 CEST  16h left   Mon 2021-10-25 11:13:03 CEST  1min 8s ago tp2_backup.timer             tp2_backup.serv>
+  ```
+  
+  # 5.Backup de la base de données.
+  
+  
+  
+  III. Reverse Proxy 
+  
+  J'installe nginx et epel-release.
+  Je lance nginx et je verifie qu'il soit enabled.
+  ```
+  
+[yaniss@web ~]$ systemctl is-enabled nginx
+enabled
+  ```
+Le port par defaut de nginx est le port 80 (facilement trouvable avec curl localhost:80)
+  ```
+
+[yaniss@web ~]$ curl localhost
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+[...]
+  ```
+  
+ ### Exploration et modification de la conf NGinx
+  ```
+ 
+ [yaniss@web ~]$ sudo cat /etc/hosts
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+10.101.1.11  web.tp2.linux
+  ```
+
+  ```
+
+[yaniss@web ~]$ sudo cat /etc/nginx/conf.d/web.tp2.linux.conf
+server {
+    # on demande à NGINX d'écouter sur le port 80 pour notre NextCloud
+    listen 80;
+
+    # ici, c'est le nom de domaine utilisé pour joindre l'application
+    # ce n'est pas le nom du reverse proxy, mais le nom que les clients devront saisir pour atteindre le site
+    server_name web.tp2.linux; # ici, c'est le nom de domaine utilisé pour joindre l'application (pas forcéme
+
+    # on définit un comportement quand la personne visite la racine du site (http://web.tp2.linux/)
+    location / {
+        # on renvoie tout le trafic vers la machine web.tp2.linux
+        proxy_pass http://web.tp2.linux;
+    }
+}
+  ```
+
+
+## IV.Firewalling
+
+
+
+
