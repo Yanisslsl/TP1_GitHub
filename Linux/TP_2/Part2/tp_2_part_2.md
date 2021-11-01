@@ -23,7 +23,7 @@ Et je modifie la lgine suivante en collant l'url du webhook copié depuis Discor
 
 # Create a webhook by following the official documentation -
 # https://support.discordapp.com/hc/en-us/articles/228383668-Intro-to-Webhooks
-DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/897411024083382304/O8LC1hui2huWEGJez8BHBoIoODNicGZLPOsyGv0s8KkGEgOt0wPtj2JGbhQ1PeAGuq_o"
+
 
 
 Puis dans le bash netdata j'execute la commande suivante.
@@ -224,6 +224,32 @@ server {
 
 
 ## IV.Firewalling
+  ```
+
+[yaniss@db ~]$ sudo firewall-cmd --get-active-zones
+db
+  sources: 10.101.1.11/24
+drop
+  interfaces: enp0s3
+  ```
+  ```
+
+[yaniss@web ~]$ sudo firewall-cmd --get-active-zones
+drop
+  interfaces: enp0s3
+web
+  sources: 10.101.1.14/24
+  ```
+  ```
+
+
+[yaniss@web ~]$ sudo firewall-cmd --get-active-zones
+backup
+  sources: 10.101.1.11/24 10.101.1.12/24
+drop
+  interfaces: enp0s3
+[..]
+  ```
 
 
 
