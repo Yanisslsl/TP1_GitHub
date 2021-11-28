@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: easy-notes
+  name: easy-notes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: easy-notes-pod
+  template:
+    metadata:
+      labels:
+        app: easy-notes-pod
+    spec:
+      containers:
+      - name: easy-notes
+        env:
+        - name: MONGO_URL
+          value: mongodb://mongodb-service:27017/music
+        image: yanissdu33/linux2:latest
+        ports:
+        - containerPort: 3000
+      restartPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: easy-notes
+  name: easy-notes-service
+spec:
+  ports:
+  - port: 8080
+    targetPort: 3000
+  selector:
+    app: easy-notes-pod
+  type: ClusterIP
+
+
+
+

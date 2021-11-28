@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-deployment
+  labels:
+    app: front
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: front
+  template:
+    metadata:
+      labels: 
+        app: front
+    spec:
+      containers:
+        - name: front
+          image: yanissdu33/linux3:stable
+          ports:
+            - containerPort: 80
+---
+
