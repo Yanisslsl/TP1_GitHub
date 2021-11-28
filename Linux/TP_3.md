@@ -183,4 +183,6 @@ export KUBECONFIG=~/.kube/config-1
 ```
 
 
-Deploiment de la solution 
+## Deploiment de la solution 
+
+Les fichiers yaml responsables du deploiement se situent dans le repository.
